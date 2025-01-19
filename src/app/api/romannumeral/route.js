@@ -1,7 +1,7 @@
 // src/app/api/convert/route.js
 
 export async function GET(request) {
-   console.log("KP-Route request => ",request);
+  console.log("KP-Route request => ", request);
   // Extract the query parameter
   const url = new URL(request.url);
   const query = url.searchParams.get("query");
@@ -40,7 +40,7 @@ export async function GET(request) {
       }
     });
 
-    console.log("KP-Result => ",result);
+    console.log("KP-Result => ", result);
     return result;
   };
 
@@ -54,7 +54,7 @@ export async function GET(request) {
       output: romanNumeralResult,
     }),
     {
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
     }
   );
 }
