@@ -15,6 +15,7 @@ import {
   Provider,
   defaultTheme
 } from "@adobe/react-spectrum";
+import ErrorAlert from "../components/ui/ErrorAlert";
 
 export default function RomanNumeralConverterPage() {
   const [input, setInput] = useState("");
@@ -64,7 +65,6 @@ export default function RomanNumeralConverterPage() {
           margin="0 auto"
           shadow="medium"
         >
-          {/* Header and Form */}
           <Heading level={1} marginBottom="size-200">
             Roman Numeral Converter
           </Heading>
@@ -79,7 +79,7 @@ export default function RomanNumeralConverterPage() {
                 type="number"
                 placeholder="e.g., 1234"
                 value={input}
-                onChange={value => {
+                onChange={(value) => {
                   setInput(value);
                   setOutput("");
                   setError("");
@@ -108,7 +108,7 @@ export default function RomanNumeralConverterPage() {
           </Form>
 
           {/* Results Section */}
-          {(output || error) && (
+          {output && (
             <View
               marginTop="size-400"
               borderRadius="medium"
@@ -116,81 +116,30 @@ export default function RomanNumeralConverterPage() {
               borderColor="dark"
               overflow="hidden"
             >
-              {output && (
-                <View>
-                  <Heading
-                    level={2}
-                    margin="size-300"
-                    marginBottom="size-200"
-                    UNSAFE_style={{
-                      fontSize: "1.2em",
-                      fontWeight: "600"
-                    }}
-                  >
-                    Result
-                  </Heading>
-                  <Divider size="S" />
+              <Heading level={2} margin="size-300" marginBottom="size-200">
+                Result
+              </Heading>
+              <Divider size="S" />
 
-                  {/* Two-Column Layout */}
-                  <Flex direction="row">
-                    {/* Left Column */}
-                    <View
-                      flex="1"
-                      padding="size-300"
-                      borderEndWidth="thin"
-                      borderEndColor="dark"
-                    >
-                      <Flex direction="column" gap="size-100">
-                        <Text
-                          UNSAFE_style={{
-                            color: "var(--spectrum-gray-700)",
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          Input number
-                        </Text>
-                        <Text
-                          UNSAFE_style={{
-                            fontSize: "2em"
-                          }}
-                        >
-                          {input}
-                        </Text>
-                      </Flex>
-                    </View>
-
-                    {/* Right Column */}
-                    <View flex="1" padding="size-300">
-                      <Flex direction="column" gap="size-100">
-                        <Text
-                          UNSAFE_style={{
-                            color: "var(--spectrum-gray-700)",
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          Roman numeral
-                        </Text>
-                        <Text
-                          UNSAFE_style={{
-                            fontSize: "2em",
-                            color: "var(--spectrum-global-color-blue-700)",
-                            fontWeight: "600"
-                          }}
-                        >
-                          {output}
-                        </Text>
-                      </Flex>
-                    </View>
+              <Flex direction="row">
+                <View flex="1" padding="size-300" borderEndWidth="thin" borderEndColor="dark">
+                  <Flex direction="column" gap="size-100">
+                    <Text>Input number</Text>
+                    <Text>{input}</Text>
                   </Flex>
                 </View>
-              )}
-              {error && (
-                <Text padding="size-300">
-                  {error}
-                </Text>
-              )}
+
+                <View flex="1" padding="size-300">
+                  <Flex direction="column" gap="size-100">
+                    <Text>Roman numeral</Text>
+                    <Text>{output}</Text>
+                  </Flex>
+                </View>
+              </Flex>
             </View>
           )}
+
+          {error && <ErrorAlert message={error} />}
         </View>
       </View>
     </Provider>
