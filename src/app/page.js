@@ -4,18 +4,17 @@ import { useState } from "react";
 import {
   TextField,
   Button,
-  View,
   Heading,
   Text,
   Flex,
-  Divider,
-  Content,
   ProgressCircle,
   Form,
   Provider,
-  defaultTheme
+  defaultTheme,
 } from "@adobe/react-spectrum";
 import ErrorAlert from "../components/ui/ErrorAlert";
+import Card from "../components/ui/Card";
+import ResultDisplay from "../components/ui/ResultDisplay";
 
 export default function RomanNumeralConverterPage() {
   const [input, setInput] = useState("");
@@ -54,17 +53,8 @@ export default function RomanNumeralConverterPage() {
 
   return (
     <Provider theme={defaultTheme}>
-      <View padding="size-1000" backgroundColor="gray-50" minHeight="100vh">
-        <View
-          backgroundColor="white"
-          borderWidth="thin"
-          borderColor="dark"
-          borderRadius="medium"
-          padding="size-500"
-          maxWidth="size-6000"
-          margin="0 auto"
-          shadow="medium"
-        >
+      <div style={{ padding: "20px", backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+        <Card>
           <Heading level={1} marginBottom="size-200">
             Roman Numeral Converter
           </Heading>
@@ -108,40 +98,10 @@ export default function RomanNumeralConverterPage() {
           </Form>
 
           {/* Results Section */}
-          {output && (
-            <View
-              marginTop="size-400"
-              borderRadius="medium"
-              borderWidth="thin"
-              borderColor="dark"
-              overflow="hidden"
-            >
-              <Heading level={2} margin="size-300" marginBottom="size-200">
-                Result
-              </Heading>
-              <Divider size="S" />
-
-              <Flex direction="row">
-                <View flex="1" padding="size-300" borderEndWidth="thin" borderEndColor="dark">
-                  <Flex direction="column" gap="size-100">
-                    <Text>Input number</Text>
-                    <Text>{input}</Text>
-                  </Flex>
-                </View>
-
-                <View flex="1" padding="size-300">
-                  <Flex direction="column" gap="size-100">
-                    <Text>Roman numeral</Text>
-                    <Text>{output}</Text>
-                  </Flex>
-                </View>
-              </Flex>
-            </View>
-          )}
-
+          {output && <ResultDisplay input={input} output={output} />}
           {error && <ErrorAlert message={error} />}
-        </View>
-      </View>
+        </Card>
+      </div>
     </Provider>
   );
 }
