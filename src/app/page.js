@@ -79,7 +79,11 @@ export default function RomanNumeralConverterPage() {
                 type="number"
                 placeholder="e.g., 1234"
                 value={input}
-                onChange={setInput}
+                onChange={value => {
+                  setInput(value);
+                  setOutput("");
+                  setError("");
+                }}
                 width="100%"
                 maxWidth="size-4600"
                 isRequired
