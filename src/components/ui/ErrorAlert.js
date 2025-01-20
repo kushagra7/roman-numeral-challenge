@@ -1,54 +1,38 @@
 import { View, Text, Flex, useProvider } from "@adobe/react-spectrum";
+import Alert from "@spectrum-icons/workflow/Alert";
 
 const ErrorAlert = ({ message }) => {
   const { colorScheme } = useProvider(); // Get the current theme (light or dark)
 
-  const backgroundColor = colorScheme === "dark" ? "gray-900" : "white";
-  const borderColor = "red-600"; // Use a consistent red for both themes
-  const textColor = colorScheme === "dark" ? "red-400" : "red-600";
+  const borderColor = colorScheme === "dark" ? "neutral-50" : "red-600"; // White for dark mode, red for light mode
+  const textColor = colorScheme === "dark" ? "neutral-50" : "neutral-900"; // Dynamic text color
 
   return (
     <View
-      backgroundColor={backgroundColor}
       borderRadius="medium"
-      padding="size-100"
-      marginTop="size-100"
-      UNSAFE_style={{
-        border: `1px solid var(--spectrum-global-color-${borderColor})`,
-        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow for the box
-      }}
+      padding="size-150"
+      marginTop="size-150"
+      borderColor={borderColor}
+      borderWidth="thin"
+      boxShadow="medium"
     >
       <Flex
         gap="size-100"
         alignItems="center"
         justifyContent="start"
         wrap="nowrap"
-        UNSAFE_style={{
-          opacity: 0.9,
-          minHeight: "40px", // Consistent height
-        }}
+        height="size-400"
       >
-        {/* Icon */}
-        <Text
-          UNSAFE_style={{
-            fontSize: "1.2rem",
-            lineHeight: "1",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          ⚠️
-        </Text>
+        <Alert
+          size="L"
+          color={textColor}
+          aria-label="Alert Icon"
+        />
 
-        {/* Message */}
         <Text
-          UNSAFE_style={{
-            color: `var(--spectrum-global-color-${textColor})`,
-            fontSize: "1rem",
-            fontWeight: 400,
-            display: "flex",
-            alignItems: "center",
-          }}
+          color={textColor}
+          fontSize="M"
+          fontWeight="medium"
         >
           {message}
         </Text>

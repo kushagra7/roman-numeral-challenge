@@ -13,6 +13,8 @@ import {
   lightTheme,
   darkTheme,
 } from "@adobe/react-spectrum";
+import Light from "@spectrum-icons/workflow/Light";
+import Moon from "@spectrum-icons/workflow/Moon";
 import ErrorAlert from "../components/ui/ErrorAlert";
 import Card from "../components/ui/Card";
 import ResultDisplay from "../components/ui/ResultDisplay";
@@ -32,7 +34,7 @@ export default function RomanNumeralConverterPage() {
 
     const number = parseInt(input, 10);
     if (isNaN(number) || number < 1 || number > 3999) {
-      setError("Please enter a valid integer between 1 and 3999");
+      setError("Please Enter A Valid Integer Between 1 and 3999");
       setIsLoading(false);
       return;
     }
@@ -60,10 +62,17 @@ export default function RomanNumeralConverterPage() {
   return (
     <Provider theme={isDarkMode ? darkTheme : lightTheme} colorScheme={isDarkMode ? "dark" : "light"}>
       <div style={{ padding: "20px", minHeight: "100vh" }}>
-        {/* Dark Theme Button */}
+        {/* Dark/Light Theme Switching Button */}
         <Flex justifyContent="end" marginBottom="size-200">
           <Button variant="secondary" onPress={toggleTheme}>
-            {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            <Flex alignItems="center" gap="size-100">
+              {isDarkMode ? (
+                <Light size="S" aria-label="Switch to Light Mode" />
+              ) : (
+                <Moon size="S" aria-label="Switch to Dark Mode" />
+              )}
+              <Text>{isDarkMode ? "Light Mode" : "Dark Mode"}</Text>
+            </Flex>
           </Button>
         </Flex>
 
