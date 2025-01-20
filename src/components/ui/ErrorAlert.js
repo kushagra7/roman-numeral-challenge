@@ -1,15 +1,21 @@
-import { View, Text, Flex } from "@adobe/react-spectrum";
+import { View, Text, Flex, useProvider } from "@adobe/react-spectrum";
 
 const ErrorAlert = ({ message }) => {
+  const { colorScheme } = useProvider(); // Get the current theme (light or dark)
+
+  const backgroundColor = colorScheme === "dark" ? "gray-900" : "white";
+  const borderColor = "red-600"; // Use a consistent red for both themes
+  const textColor = colorScheme === "dark" ? "red-400" : "red-600";
+
   return (
     <View
-      backgroundColor="white"
+      backgroundColor={backgroundColor}
       borderRadius="medium"
       padding="size-100"
       marginTop="size-100"
       UNSAFE_style={{
-        border: "1px solid rgb(210, 45, 58)", // Red border for the error box
-        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)", // Optional: subtle shadow
+        border: `1px solid var(--spectrum-global-color-${borderColor})`,
+        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow for the box
       }}
     >
       <Flex
@@ -37,9 +43,9 @@ const ErrorAlert = ({ message }) => {
         {/* Message */}
         <Text
           UNSAFE_style={{
-            color: "rgb(210, 45, 58)",
-            fontSize: "0.925rem",
-            fontWeight: 500,
+            color: `var(--spectrum-global-color-${textColor})`,
+            fontSize: "1rem",
+            fontWeight: 400,
             display: "flex",
             alignItems: "center",
           }}

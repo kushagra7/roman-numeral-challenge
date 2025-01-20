@@ -10,7 +10,8 @@ import {
   ProgressCircle,
   Form,
   Provider,
-  defaultTheme,
+  lightTheme,
+  darkTheme,
 } from "@adobe/react-spectrum";
 import ErrorAlert from "../components/ui/ErrorAlert";
 import Card from "../components/ui/Card";
@@ -21,6 +22,7 @@ export default function RomanNumeralConverterPage() {
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false); // Manage theme state
 
   const handleConvert = async (e) => {
     e?.preventDefault();
@@ -51,9 +53,20 @@ export default function RomanNumeralConverterPage() {
     }
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode); // Toggle theme
+  };
+
   return (
-    <Provider theme={defaultTheme}>
-      <div style={{ padding: "20px", backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
+    <Provider theme={isDarkMode ? darkTheme : lightTheme} colorScheme={isDarkMode ? "dark" : "light"}>
+      <div style={{ padding: "20px", minHeight: "100vh" }}>
+        {/* Dark Theme Button */}
+        <Flex justifyContent="end" marginBottom="size-200">
+          <Button variant="secondary" onPress={toggleTheme}>
+            {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          </Button>
+        </Flex>
+
         <Card>
           <Heading level={1} marginBottom="size-200">
             Roman Numeral Converter
@@ -85,13 +98,15 @@ export default function RomanNumeralConverterPage() {
                 variant="cta"
                 type="submit"
                 isDisabled={!input.trim() || isLoading}
-                width="size-2000"
+                width="size-3000"
                 marginTop="size-100"
+                justifyContent="center"
+                alignItems="center"
               >
                 {isLoading ? (
                   <ProgressCircle size="S" isIndeterminate aria-label="Converting..." />
                 ) : (
-                  "Convert to Roman"
+                  "Convert To Roman Numeral"
                 )}
               </Button>
             </Flex>
