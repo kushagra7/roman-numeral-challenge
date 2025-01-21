@@ -1,8 +1,7 @@
-// src/app/api/convert/route.js
 
 export async function GET(request) {
-  console.log("KP-Route request => ", request);
-  // Extract the query parameter
+  console.log("Requested Route => ", request);
+  // Extract The Query Parameter
   const url = new URL(request.url);
   const query = url.searchParams.get("query");
 
@@ -85,6 +84,6 @@ const convertInputToRomanNumeral = (num) => {
     }
   });
 
-  console.log("KP-Result => ", result);
+  console.log("Converted Roman Numeral => ", result);
   return result;
 };
