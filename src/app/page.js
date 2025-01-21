@@ -4,23 +4,27 @@ import { useState } from "react";
 import {
   TextField,
   Button,
-  View,
   Heading,
   Text,
   Flex,
-  Divider,
-  Content,
   ProgressCircle,
   Form,
   Provider,
-  defaultTheme
+  lightTheme,
+  darkTheme,
 } from "@adobe/react-spectrum";
+import Light from "@spectrum-icons/workflow/Light";
+import Moon from "@spectrum-icons/workflow/Moon";
+import ErrorAlert from "../components/ui/ErrorAlert";
+import Card from "../components/ui/Card";
+import ResultDisplay from "../components/ui/ResultDisplay";
 
 export default function RomanNumeralConverterPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false); // Manage theme state
 
   const handleConvert = async (e) => {
     e?.preventDefault();
@@ -30,7 +34,7 @@ export default function RomanNumeralConverterPage() {
 
     const number = parseInt(input, 10);
     if (isNaN(number) || number < 1 || number > 3999) {
-      setError("Please enter a valid integer between 1 and 3999");
+      setError("Please Enter A Valid Integer Between 1 and 3999");
       setIsLoading(false);
       return;
     }
@@ -51,20 +55,28 @@ export default function RomanNumeralConverterPage() {
     }
   };
 
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode); // Toggle theme
+  };
+
   return (
-    <Provider theme={defaultTheme}>
-      <View padding="size-1000" backgroundColor="gray-50" minHeight="100vh">
-        <View
-          backgroundColor="white"
-          borderWidth="thin"
-          borderColor="dark"
-          borderRadius="medium"
-          padding="size-500"
-          maxWidth="size-6000"
-          margin="0 auto"
-          shadow="medium"
-        >
-          {/* Header and Form */}
+    <Provider theme={isDarkMode ? darkTheme : lightTheme} colorScheme={isDarkMode ? "dark" : "light"}>
+      <div style={{ padding: "20px", minHeight: "100vh" }}>
+        {/* Dark/Light Theme Switching Button */}
+        <Flex justifyContent="end" marginBottom="size-200">
+          <Button variant="secondary" onPress={toggleTheme}>
+            <Flex alignItems="center" gap="size-100">
+              {isDarkMode ? (
+                <Light size="S" aria-label="Switch to Light Mode" />
+              ) : (
+                <Moon size="S" aria-label="Switch to Dark Mode" />
+              )}
+              <Text>{isDarkMode ? "Light Mode" : "Dark Mode"}</Text>
+            </Flex>
+          </Button>
+        </Flex>
+
+        <Card>
           <Heading level={1} marginBottom="size-200">
             Roman Numeral Converter
           </Heading>
@@ -79,7 +91,11 @@ export default function RomanNumeralConverterPage() {
                 type="number"
                 placeholder="e.g., 1234"
                 value={input}
-                onChange={setInput}
+                onChange={(value) => {
+                  setInput(value);
+                  setOutput("");
+                  setError("");
+                }}
                 width="100%"
                 maxWidth="size-4600"
                 isRequired
@@ -91,104 +107,25 @@ export default function RomanNumeralConverterPage() {
                 variant="cta"
                 type="submit"
                 isDisabled={!input.trim() || isLoading}
-                width="size-2000"
+                width="size-3000"
                 marginTop="size-100"
+                justifyContent="center"
+                alignItems="center"
               >
                 {isLoading ? (
                   <ProgressCircle size="S" isIndeterminate aria-label="Converting..." />
                 ) : (
-                  "Convert to Roman"
+                  "Convert To Roman Numeral"
                 )}
               </Button>
             </Flex>
           </Form>
 
           {/* Results Section */}
-          {(output || error) && (
-            <View
-              marginTop="size-400"
-              borderRadius="medium"
-              borderWidth="thin"
-              borderColor="dark"
-              overflow="hidden"
-            >
-              {output && (
-                <View>
-                  <Heading
-                    level={2}
-                    margin="size-300"
-                    marginBottom="size-200"
-                    UNSAFE_style={{
-                      fontSize: "1.2em",
-                      fontWeight: "600"
-                    }}
-                  >
-                    Result
-                  </Heading>
-                  <Divider size="S" />
-
-                  {/* Two-Column Layout */}
-                  <Flex direction="row">
-                    {/* Left Column */}
-                    <View
-                      flex="1"
-                      padding="size-300"
-                      borderEndWidth="thin"
-                      borderEndColor="dark"
-                    >
-                      <Flex direction="column" gap="size-100">
-                        <Text
-                          UNSAFE_style={{
-                            color: "var(--spectrum-gray-700)",
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          Input number
-                        </Text>
-                        <Text
-                          UNSAFE_style={{
-                            fontSize: "2em"
-                          }}
-                        >
-                          {input}
-                        </Text>
-                      </Flex>
-                    </View>
-
-                    {/* Right Column */}
-                    <View flex="1" padding="size-300">
-                      <Flex direction="column" gap="size-100">
-                        <Text
-                          UNSAFE_style={{
-                            color: "var(--spectrum-gray-700)",
-                            whiteSpace: "nowrap"
-                          }}
-                        >
-                          Roman numeral
-                        </Text>
-                        <Text
-                          UNSAFE_style={{
-                            fontSize: "2em",
-                            color: "var(--spectrum-global-color-blue-700)",
-                            fontWeight: "600"
-                          }}
-                        >
-                          {output}
-                        </Text>
-                      </Flex>
-                    </View>
-                  </Flex>
-                </View>
-              )}
-              {error && (
-                <Text padding="size-300">
-                  {error}
-                </Text>
-              )}
-            </View>
-          )}
-        </View>
-      </View>
+          {output && <ResultDisplay input={input} output={output} />}
+          {error && <ErrorAlert message={error} />}
+        </Card>
+      </div>
     </Provider>
   );
 }
