@@ -3,14 +3,12 @@ import { View } from "@adobe/react-spectrum";
 const Card = ({ children }) => {
   return (
     <View
-      backgroundColor="white"
+      backgroundColor="gray-50"
       borderWidth="thin"
       borderColor="dark"
-      borderRadius="medium"
-      padding="size-500"
+      padding="size-400"
       maxWidth="size-6000"
       margin="0 auto"
-      shadow="medium"
     >
       {children}
     </View>
