@@ -5,7 +5,8 @@ on:
     branches:
       - '*'
     paths:
-      - 'src/app/tests/api/romannumeral/**'
+      - 'src/**'
+      - 'tests/**'
       - 'package.json'
       - 'package-lock.json'
       - '.github/workflows/**'
